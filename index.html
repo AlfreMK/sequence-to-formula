@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Succession to Formula</title>
+    <!-- for LaTeX equations: -->
+    <script
+      type="text/javascript"
+      src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+    <!-- for LaTeX font style: -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css"
+    />
+    <!-- for icons: -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <main>
+      <h2>Generate formula from any given succession of numbers</h2>
+      <p>
+        Are you tired of those annoying problems that make you guess the next
+        number in a sequence or find some obscure formula for a series?
+      </p>
+      <p>
+        Well, look no further than this amazing tool that will do all the hard
+        work for you. Just enter any sequence of numbers and watch as this tool
+        magically spits out the answer. No more headaches, no more frustration,
+        no more wasted time. This tool is the ultimate solution for all your
+        sequence and series needs. Try it now and see for yourself!
+      </p>
+      <input type="text" id="input-load" value="10,100,1000" />
+      <button onclick="loadInputArray()">Generate</button>
+      <div id="latex-display">
+        $$ f(n) = (1000 - 190)\frac{\displaystyle\prod_{k=1}^{2} (n - k)}{2!}\\
+        + (100 - 10)\frac{\displaystyle\prod_{k=1}^{1} (n - k)}{1!}\\ + 10 $$
+      </div>
+      First ten numbers:
+      <table>
+        <thead>
+          <th>$$n$$</th>
+          <th>$$f(n)$$</th>
+        </thead>
+        <tbody id="first-ten"></tbody>
+      </table>
+    </main>
+    <footer>
+      <div>
+        Inspired by
+        <a class="github" href="https://youtu.be/YghBJcxkhPY" target="_blank">
+          <i class="fa fa-youtube"></i>
+          Derivando
+        </a>
+      </div>
+      <div>
+        Made by
+        <a class="github" href="https://github.com/AlfreMK" target="_blank">
+          <i class="fa fa-github"></i>
+          AlfreMK
+        </a>
+      </div>
+    </footer>
+  </body>
+  <script>
+    function loadInputArray() {
+      const latexDisplay = document.getElementById("latex-display");
+      const inputArray = document
+        .getElementById("input-load")
+        .value.replace(/ /g, "")
+        .split(",")
+        .map((x) => parseFloat(x));
+      const succession = new Succession(...inputArray);
+      latexDisplay.innerHTML = `$$ ${succession.printInLatex()} $$`;
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, latexDisplay]);
+      loadFirstTen();
+    }
+
+    function loadFirstTen() {
+      const firstTen = document.getElementById("first-ten");
+      const inputArray = document
+        .getElementById("input-load")
+        .value.replace(/ /g, "")
+        .split(",")
+        .map((x) => parseFloat(x));
+      const succession = new Succession(...inputArray);
+      firstTen.innerHTML = "";
+      for (let n = 1; n <= 10; n++) {
+        firstTen.innerHTML += `
+        <tr>
+          <td>${n}</td>
+          <td>${succession.getValueByN(n)}</td>
+        </tr>`;
+      }
+    }
+    loadFirstTen();
+  </script>
+</html>
