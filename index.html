@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Succession to Formula</title>
+    <title>Sequence to Formula</title>
     <!-- for LaTeX equations: -->
     <script
       type="text/javascript"
@@ -27,7 +27,7 @@
   </head>
   <body>
     <main>
-      <h2>Generate formula from any given succession of numbers</h2>
+      <h2>Generate formula from any given sequence of numbers</h2>
       <p>
         Are you tired of those annoying problems that make you guess the next
         number in a sequence or find some obscure formula for a series?
@@ -79,8 +79,8 @@
         .value.replace(/ /g, "")
         .split(",")
         .map((x) => parseFloat(x));
-      const succession = new Succession(...inputArray);
-      latexDisplay.innerHTML = `$$ ${succession.printInLatex()} $$`;
+      const sequence = new Sequence(...inputArray);
+      latexDisplay.innerHTML = `$$ ${sequence.printInLatex()} $$`;
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, latexDisplay]);
       loadFirstTen();
     }
@@ -92,13 +92,13 @@
         .value.replace(/ /g, "")
         .split(",")
         .map((x) => parseFloat(x));
-      const succession = new Succession(...inputArray);
+      const sequence = new Sequence(...inputArray);
       firstTen.innerHTML = "";
       for (let n = 1; n <= 10; n++) {
         firstTen.innerHTML += `
         <tr>
           <td>${n}</td>
-          <td>${succession.getValueByN(n)}</td>
+          <td>${sequence.getValueByN(n)}</td>
         </tr>`;
       }
     }

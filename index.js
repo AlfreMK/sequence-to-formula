@@ -13,6 +13,8 @@ const product = (n, len) => {
   return result;
 };
 
+// inspired from "Derivando" youtube's video:
+// https://youtu.be/YghBJcxkhPY
 const b_n2 = (a1, a2) => (n) => {
   return ((a2 - a1) * product(n, 1)) / factorial(1) + a1;
 };
@@ -23,19 +25,7 @@ const b_n3 = (a1, a2, a3) => (n) => {
   );
 };
 
-// inspired from "Derivando" youtube's video:
-// https://youtu.be/YghBJcxkhPY
-const b_n =
-  (...args) =>
-  (n) => {
-    let result = args[0];
-    for (let i = 1; i < args.length; i++) {
-      result = ((args[i] - result) * product(n, i)) / factorial(i) + result;
-    }
-    return result;
-  };
-
-class Succession {
+class Sequence {
   constructor(...args) {
     this.args = args;
     this.b_numbers = new Array(args.length);
@@ -111,6 +101,6 @@ class Succession {
   }
 }
 
-// const test = new Succession(20, 10, 100);
+// const test = new Sequence(20, 10, 100);
 
 // test.printInLatex();
