@@ -5,8 +5,13 @@ const factorial = (num) => {
 };
 
 // product = (n-1)*(n-2)...*(n-len)
-const product = (n, len) =>
-  Array.from({ length: len }, (_, i) => n - i).reduce((a, b) => a * b, 1);
+const product = (n, len) => {
+  let result = 1;
+  for (let i = 1; i <= len; i++) {
+    result *= n - i;
+  }
+  return result;
+};
 
 const b_n2 = (a1, a2) => (n) => {
   return ((a2 - a1) * product(n, 1)) / factorial(1) + a1;
@@ -34,23 +39,38 @@ class Succession {
   constructor(...args) {
     this.args = args;
     this.b_numbers = new Array(args.length);
-    this.b_n(...args)(args.length);
+    for (let i = 1; i < args.length; i++) {
+      this.b_numbers[i - 1] = this.b_init(...args.slice(0, i + 1))(i + 1);
+    }
   }
+
+  b_init =
+    (...args) =>
+    (n) => {
+      let result = args[0];
+      let b_number = args[0];
+      for (let i = 1; i < args.length; i++) {
+        result =
+          ((args[i] - this.b_numbers[i - 1]) * product(n, i)) / factorial(i) +
+          result;
+        if (i < args.length - 1) b_number = result;
+      }
+      return b_number;
+    };
 
   b_n =
     (...args) =>
     (n) => {
-      n = n - 1;
-      this.b_numbers[0] = args[0];
+      let result = args[0];
       for (let i = 1; i < args.length; i++) {
-        this.b_numbers[i] =
+        result =
           ((args[i] - this.b_numbers[i - 1]) * product(n, i)) / factorial(i) +
-          this.b_numbers[i - 1];
+          result;
       }
-      return this.b_numbers[this.b_numbers.length - 1];
+      return result;
     };
 
-  getValueByN = (i) => this.b_n(...this.args)(i);
+  getValueByN = (n) => this.b_n(...this.args)(n);
 
   printPolynomialFunction() {
     let args = this.args;
@@ -58,10 +78,10 @@ class Succession {
     let pattern = " f(n) = ";
     for (let k = args.length; k > 1; k--) {
       let term = "";
-      for (let i = k-1; i >= 1; i--) {
+      for (let i = k - 1; i >= 1; i--) {
         term += `(n-${k - i})`;
       }
-      term += `/${k-1}!`;
+      term += `/${k - 1}!`;
 
       pattern += `(${args[k - 1]} - ${b_numbers[k - 2]})${term}`;
       if (k > 1) {
@@ -78,18 +98,18 @@ class Succession {
     let b_numbers = this.b_numbers;
     let pattern = " f(n) = ";
     for (let k = args.length; k > 1; k--) {
-        let term = `\\frac{\\displaystyle\\prod_{k=1}^{${k-1}} (n - k)}{${k-1}!}`
+      let term = `\\frac{\\displaystyle\\prod_{k=1}^{${k - 1}} (n - k)}{${
+        k - 1
+      }!}`;
       pattern += `(${args[k - 1]} - ${b_numbers[k - 2]})${term}`;
       if (k > 1) {
         pattern += "\\\\ + ";
       }
     }
     pattern += `${args[0]}`;
-    console.log(pattern);
     return pattern;
   }
 }
-
 
 // const test = new Succession(20, 10, 100);
 
