@@ -25,7 +25,7 @@ const b_n3 = (a1, a2, a3) => (n) => {
   );
 };
 
-class Succession {
+class Sequence {
   constructor(...args) {
     this.args = args;
     this.b_numbers = new Array(args.length);
@@ -101,6 +101,6 @@ class Succession {
   }
 }
 
-// const test = new Succession(20, 10, 100);
+// const test = new Sequence(20, 10, 100);
 
 // test.printInLatex();
