@@ -23,7 +23,8 @@
 
     <link rel="stylesheet" href="styles.css" />
 
-    <script src="index.js"></script>
+    <script src="utils.js"></script>
+    <script src="sequence.js"></script>
   </head>
   <body>
     <main>
@@ -72,7 +73,7 @@
     </footer>
   </body>
   <script>
-    function loadInputArray() {
+    const loadInputArray = () => {
       const latexDisplay = document.getElementById("latex-display");
       const inputArray = document
         .getElementById("input-load")
@@ -80,12 +81,12 @@
         .split(",")
         .map((x) => parseFloat(x));
       const sequence = new Sequence(...inputArray);
-      latexDisplay.innerHTML = `$$ ${sequence.printInLatex()} $$`;
+      latexDisplay.innerHTML = `$$ ${sequence.toLatex()} $$`;
       MathJax.Hub.Queue(["Typeset", MathJax.Hub, latexDisplay]);
       loadFirstTen();
     }
 
-    function loadFirstTen() {
+    const loadFirstTen = () => {
       const firstTen = document.getElementById("first-ten");
       const inputArray = document
         .getElementById("input-load")
@@ -98,7 +99,7 @@
         firstTen.innerHTML += `
         <tr>
           <td>${n}</td>
-          <td>${sequence.getValueByN(n)}</td>
+          <td>${sequence.getNthTerm(n)}</td>
         </tr>`;
       }
     }
